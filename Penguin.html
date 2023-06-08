@@ -1,0 +1,330 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(•‿•) |>3|\|9|_|1|\| (•‿•)</title>
+    <style>
+        .container {
+            height: 100%;
+            width: 100%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            background: black;
+        }
+
+        /* canvas {
+            display:fixed;
+        } */
+
+        .name {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 0;
+            color: green;
+        }
+
+        h1 {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-family: Nosifer;
+            text-shadow: 0 0 0.5em red, 0 0 0.5em red;
+        }
+
+        #penguin {
+            border: 5px double rgb(58, 250, 0);
+            border-radius: 35%;
+            height: 250px;
+            width: 300px;
+            opacity: 70%;
+
+        }
+
+        .message {
+            color: white;
+            -webkit-animation: fadeIn 1s ease-in;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .text {
+            font-weight: 100;
+            font-size: 28px;
+            color: #FAFAFA;
+            font-family: Iceland;
+            text-shadow: 0 0 0.5em cyan, 0 0 0.5em cyan;
+
+        }
+
+        .dud {
+            color: #757575;
+        }
+
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+        .animation-container span {
+            color: whitesmoke;
+            display: block;
+            font-size: 18px;
+            font-family: 'Helvetica';
+            text-shadow: 0 0 1px white;
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            cursor: default;
+            z-index: 1;
+            opacity: 0;
+            will-change: transform, opacity;
+            animation-timing-function: ease-out;
+            animation-name: move;
+        }
+
+        @keyframes move {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh);
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            75% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+                transform: none;
+            }
+        }
+
+        /* .buzz_wrapper .text {
+            -webkit-animation: jerkwhole 5s infinite;
+            position: relative;
+        } */
+
+        /* -------------------------------------------------------------------------------- */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <canvas></canvas>
+        <div
+            style="position: fixed; bottom: 10px; left: -200px; width: 600px; padding: 10px; text-align: center; background-color: Transparent; opacity: 0.5;">
+            <img style="height: 150px; width: 150px; border-radius: 50%" src="https://drive.google.com/uc?id=1npjafYFlXjfXeHZ2jFrwGQO4QKfHDIka" alt="【A】">
+        </div>
+        <center class="name">
+            <h1>|>3|\|9|_|1|\|</h1>
+            <br><br>
+            <img id="penguin" src="https://drive.google.com/uc?id=1lme6tgN8Naw6QoCMEXez7Y8Q30U_FDE2"
+                alt="|>3|\|9|_|1|\|">
+
+            <br><br><br>
+
+            <div class="text"></div>
+        </center>
+    </div>
+    <iframe width="1" height="1" src="https://www.youtube.com/embed/LApS9G22cIU?rel=0&autoplay=1" frameborder="0"
+        allowfullscreen></iframe>
+</body>
+
+<!-- background -->
+<script>
+    // Initialising the canvas
+    var canvas = document.querySelector('canvas'),
+        ctx = canvas.getContext('2d');
+
+    // Setting the width and height of the canvas
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Setting up the letters
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
+    letters = letters.split('');
+
+    // Setting up the columns
+    var fontSize = 10,
+        columns = canvas.width / fontSize;
+
+    // Setting up the drops
+    var drops = [];
+    for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+    }
+
+    // Setting up the draw function
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < drops.length; i++) {
+            var text = letters[Math.floor(Math.random() * letters.length)];
+            ctx.fillStyle = '#0f0';
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            drops[i]++;
+            if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+                drops[i] = 0;
+            }
+        }
+    }
+
+    // Loop the animation
+    setInterval(draw, 33);
+</script>
+
+<!-- Text Animation Area -->
+<script>
+    class TextScramble {
+        constructor(el) {
+            this.el = el
+            this.chars = '!@#$%^&*()_-=+{}:"|<>?,./;'
+            this.update = this.update.bind(this)
+        }
+        setText(newText) {
+            const oldText = this.el.innerText
+            const length = Math.max(oldText.length, newText.length)
+            const promise = new Promise((resolve) => this.resolve = resolve)
+            this.queue = []
+            for (let i = 0; i < length; i++) {
+                const from = oldText[i] || ''
+                const to = newText[i] || ''
+                const start = Math.floor(Math.random() * 40)
+                const end = start + Math.floor(Math.random() * 40)
+                this.queue.push({
+                    from,
+                    to,
+                    start,
+                    end
+                })
+            }
+            cancelAnimationFrame(this.frameRequest)
+            this.frame = 0
+            this.update()
+            return promise
+        }
+        update() {
+            let output = ''
+            let complete = 0
+            for (let i = 0, n = this.queue.length; i < n; i++) {
+                let {
+                    from,
+                    to,
+                    start,
+                    end,
+                    char
+                } = this.queue[i]
+                if (this.frame >= end) {
+                    complete++
+                    output += to
+                } else if (this.frame >= start) {
+                    if (!char || Math.random() < 0.28) {
+                        char = this.randomChar()
+                        this.queue[i].char = char
+                    }
+                    output += `<span class="dud">${char}</span>`
+                } else {
+                    output += from
+                }
+            }
+            this.el.innerHTML = output
+            if (complete === this.queue.length) {
+                this.resolve()
+            } else {
+                this.frameRequest = requestAnimationFrame(this.update)
+                this.frame++
+            }
+        }
+        randomChar() {
+            return this.chars[Math.floor(Math.random() * this.chars.length)]
+        }
+    }
+
+    const phrases = [
+        'I am not a criminal.',
+        'I do that from my curiosity.',
+        'Fix your Bug....',
+        'My crime is that of judging people by what they say and think, not what they look like.',
+        'My crime is that of outsmarting you, something that you will never forgive me for.',
+        'I am a hacker, and this is my manifesto.',
+        'You may stop this individual, but you cant stop us all...',
+        'after all, were all alike.'
+    ]
+
+    const el = document.querySelector('.text')
+    const fx = new TextScramble(el)
+
+    let counter = 0
+    const next = () => {
+        fx.setText(phrases[counter]).then(() => {
+            setTimeout(next, 1500)
+        })
+        counter = (counter + 1) % phrases.length
+    }
+
+    next()
+
+    'use strict';
+
+    var app = {
+
+        chars: ['【A】', '𝕻𝖊𝖓𝖌𝖚𝖎𝖓', 'PureHackers', 'Unleashed', '1337', '0x523344', 'Localhost', 'Cr4sH CoD3', 'HACKED!', 'Security', 'Breached!', 'System', '|>3|\|9|_|1|\|', '𝕃𝕖𝕖𝕥', '(>‿◠)', '(•◡•)'],
+
+        init: function () {
+            app.container = document.createElement('div');
+            app.container.className = 'animation-container';
+            document.body.appendChild(app.container);
+            window.setInterval(app.add, 100);
+        },
+
+        add: function () {
+            var element = document.createElement('span');
+            app.container.appendChild(element);
+            app.animate(element);
+        },
+
+        animate: function (element) {
+            var character = app.chars[Math.floor(Math.random() * app.chars.length)];
+            var duration = Math.floor(Math.random() * 15) + 1;
+            var offset = Math.floor(Math.random() * (50 - duration * 2)) + 3;
+            var size = 10 + (15 - duration);
+            element.style.cssText = 'right:' + offset + 'vw; font-size:' + size + 'px;animation-duration:' + duration + 's';
+            element.innerHTML = character;
+            window.setTimeout(app.remove, duration * 1000, element);
+        },
+
+        remove: function (element) {
+            element.parentNode.removeChild(element);
+        },
+
+    };
+
+    document.addEventListener('DOMContentLoaded', app.init);
+</script>
+
+
+</html>
